@@ -8,7 +8,8 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user
+      UserNotifier.send_signup_email(@user).deliver
+      redirect_to(@user, :notice => 'User created')
     else
       #implement later
     end
